@@ -71,3 +71,62 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+```
+backend_material
+├─ .eslintrc.js
+├─ .prettierrc
+├─ Dockerfile
+├─ nest-cli.json
+├─ package.json
+├─ README.md
+├─ src
+│  ├─ app.controller.spec.ts
+│  ├─ app.controller.ts
+│  ├─ app.module.ts
+│  ├─ app.service.ts
+│  ├─ auth
+│  │  ├─ auth.module.ts
+│  │  ├─ controllers
+│  │  │  ├─ auth.controller.ts
+│  │  │  └─ index.ts
+│  │  ├─ dto
+│  │  │  ├─ index.ts
+│  │  │  └─ login-res.dto.ts
+│  │  ├─ entities
+│  │  │  ├─ access-log.entity.ts
+│  │  │  ├─ access-token.entity.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ refresh-token.entity.ts
+│  │  │  ├─ token-blacklist.entity.ts
+│  │  │  └─ user.entity.ts
+│  │  ├─ repositories
+│  │  │  ├─ access-log.repository.ts
+│  │  │  ├─ access-token.repository.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ refresh-token.repository.ts
+│  │  │  ├─ token-blacklist.repository.ts
+│  │  │  └─ user.repository.ts
+│  │  ├─ services
+│  │  │  ├─ auth.service.ts
+│  │  │  ├─ index.ts
+│  │  │  ├─ token-blacklist.ts
+│  │  │  └─ user.service.ts
+│  │  ├─ strategies
+│  │  └─ types
+│  ├─ common
+│  ├─ config
+│  │  ├─ ormconfig.ts
+│  │  └─ validation.schema.ts
+│  ├─ exception
+│  ├─ interceptors
+│  ├─ main.ts
+│  └─ payment
+├─ test
+│  ├─ app.e2e-spec.ts
+│  └─ jest-e2e.json
+├─ tsconfig.build.json
+├─ tsconfig.json
+└─ yarn.lock
+
+```
