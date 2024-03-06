@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { AccessLog, AccessToken, RefreshToken, User } from 'src/auth/entities';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -14,7 +15,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: 'postgres',
       password: '1234aaaa',
       database: 'postgres',
-      entities: [],
+      entities: [User, AccessToken, RefreshToken, AccessLog],
+      //[__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       logging: true,
     };
