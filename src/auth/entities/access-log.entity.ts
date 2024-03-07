@@ -16,6 +16,9 @@ export class AccessLog extends BaseEntity {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   accessedAt: Date;
 
+  @Column({ type: 'varchar', length: 512, nullable: true })
+  userAgent: string; // 브라우저 정보 추가
+
   @ManyToOne(() => User, (user) => user.accessLogs, {
     nullable: true,
     onDelete: 'CASCADE',

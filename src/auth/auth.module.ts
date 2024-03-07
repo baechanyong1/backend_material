@@ -17,13 +17,15 @@ import {
   AccessLogRepository,
   TokenBlacklistRepository,
 } from './repositories';
+import { HttpModule } from '@nestjs/axios';
 import { JwtStrategy } from './strategies';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService, UserService } from './services';
+import { TokenBlacklistService } from './services/token-blacklist';
 
 @Module({
   imports: [
-    //HttpModule,
+    HttpModule,
     ConfigModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -48,7 +50,7 @@ import { AuthService, UserService } from './services';
   providers: [
     UserService,
     AuthService,
-    //TokenBlacklistService,
+    TokenBlacklistService,
     UserRepository,
     AccessTokenRepository,
     RefreshTokenRepository,
@@ -59,7 +61,7 @@ import { AuthService, UserService } from './services';
   exports: [
     UserService,
     AuthService,
-    //TokenBlacklistService,
+    TokenBlacklistService,
     UserRepository,
     AccessTokenRepository,
     RefreshTokenRepository,

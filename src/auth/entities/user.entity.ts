@@ -23,6 +23,9 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar' })
   role: UserRole;
 
+  @Column({ nullable: true })
+  regNo: string;
+
   @Column({ default: false })
   isPersonalInfoVerified: boolean;
 

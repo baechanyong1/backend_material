@@ -1,4 +1,4 @@
-import { Controller, Body, Post } from '@nestjs/common';
+import { Controller, Body, Post, Req } from '@nestjs/common';
 import { AuthService, UserService } from '../services';
 import {
   CreateUserDto,
@@ -23,5 +23,23 @@ export class AuthController {
       email: user.email,
       phone: user.phone,
     };
+  }
+
+  @Post('login')
+  async login(
+    @Req() req,
+    @Body() loginReqDto: LoginReqDto,
+  ): Promise<LoginResDto> {
+    const { ip, method, originalUrl } = req;
+    const reqInfo = {
+      ip,
+      endpoint: `${method} ${originalUrl}`,
+      ua: req.headers['user-agent'] || '',
+    };
+    return this.authService.login(
+      loginReqDto.email,
+      loginReqDto.password,
+      reqInfo,
+    );
   }
 }

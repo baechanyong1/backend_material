@@ -8,6 +8,8 @@ import { TypeOrmConfigService } from './config/ormconfig';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { validationSchema } from './config/validation.schema';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './interceptors';
 
 @Module({
   imports: [
@@ -19,6 +21,7 @@ import { validationSchema } from './config/validation.schema';
       imports: [ConfigModule],
       useClass: TypeOrmConfigService,
       inject: [ConfigService],
+
       async dataSourceFactory(options) {
         if (!options) {
           throw new Error('Invalid options passed');
@@ -27,11 +30,15 @@ import { validationSchema } from './config/validation.schema';
       },
     }),
 
-    AuthModule, // 대괄호 제거
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
 })
 export class AppModule {}
-
-// authModule, typeORM.config 연결
