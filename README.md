@@ -1,4 +1,4 @@
-<div align=center>
+<p align=center>
 <h3> :blush:소개 </h3>
 로그인 서비스
 
@@ -7,6 +7,8 @@
 <img alt="NestJS" src="https://img.shields.io/badge/NestJS-E0234E?style=for-the-badge&logo=nestjs&logoColor=white">
 <img alt="TypeORM" src="https://img.shields.io/badge/TypeORM-376E9B?style=for-the-badge&logo=typeorm&logoColor=white">
 <img alt="PostgreSQL" src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white">
+</p>
+
 
 ```
 backend_material
