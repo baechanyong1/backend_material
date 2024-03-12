@@ -10,6 +10,7 @@ import { addTransactionalDataSource } from 'typeorm-transactional';
 import { validationSchema } from './config/validation.schema';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './interceptors';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { LoggingInterceptor } from './interceptors';
     }),
 
     AuthModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [
