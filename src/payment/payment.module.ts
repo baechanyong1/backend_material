@@ -4,49 +4,48 @@ import {
   CouponRepository,
   IssuedCouponRepository,
   // OrderItemRepository,
-  //OrderRepository,
-  //PointLogRepository,
-  //PointRepository,
+  // OrderRepository,
+  PointLogRepository,
+  PointRepository,
   ProductRepository,
-  //ShippingInfoRepository,
+  // ShippingInfoRepository,
 } from './repositories';
 import {
   Coupon,
   IssuedCoupon,
-  // Order,
-  //OrderItem,
-  //Point,
-  //PointLog,
+  Order,
+  OrderItem,
+  Point,
+  PointLog,
   Product,
-  //ShippingInfo,
+  ShippingInfo,
 } from './entities';
 import { AuthModule } from '../auth/auth.module';
-import {
-  CouponService,
-  //PaymentService,
-  ProductService,
-} from './services';
+import { CouponService, PaymentService, ProductService } from './services';
 import { Category } from './entities/product.entity';
-import { couponController } from './controller/coupon.controller';
-import { ProductController } from './controller/product.controller';
+import {
+  PaymentController,
+  ProductController,
+  CouponController,
+} from './controller';
 
 @Module({
   imports: [
     AuthModule,
     TypeOrmModule.forFeature([
-      // Order,
-      // OrderItem,
-      // ShippingInfo,
-      // Point,
-      // PointLog,
+      Order,
+      OrderItem,
+      ShippingInfo,
+      Point,
+      PointLog,
       Coupon,
       IssuedCoupon,
       Product,
     ]),
   ],
-  controllers: [couponController, ProductController],
+  controllers: [CouponController, ProductController, PaymentController],
   providers: [
-    //PaymentService,
+    PaymentService,
     ProductService,
     CouponService,
     // OrderRepository,
@@ -55,8 +54,8 @@ import { ProductController } from './controller/product.controller';
     ProductRepository,
     CouponRepository,
     IssuedCouponRepository,
-    //  PointRepository,
-    //  PointLogRepository,
+    PointRepository,
+    PointLogRepository,
   ],
 })
 export class PaymentModule {}

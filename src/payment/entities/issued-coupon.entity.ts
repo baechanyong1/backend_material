@@ -9,7 +9,7 @@ import {
 import { BaseEntity } from '../../common/entity';
 import { Coupon } from './coupon.entity';
 import { User } from '../../auth/entities';
-//import { Order } from './order.entity';
+import { Order } from './order.entity';
 
 @Entity()
 export class IssuedCoupon extends BaseEntity {
@@ -21,8 +21,8 @@ export class IssuedCoupon extends BaseEntity {
   @JoinColumn()
   coupon: Relation<Coupon>;
 
-  //   @OneToOne(() => Order, (order) => order.usedIssuedCoupon, { nullable: true })
-  //   usedOrder: Relation<Order>;
+  @OneToOne(() => Order, (order) => order.usedIssuedCoupon, { nullable: true })
+  usedOrder: Relation<Order>;
 
   @Column({ type: 'boolean', default: false })
   isValid: boolean; // 사용 가능 여부
@@ -39,7 +39,6 @@ export class IssuedCoupon extends BaseEntity {
   @Column({ type: 'timestamp', nullable: true })
   usedAt: Date;
 
-  @Column({ type: 'enum', nullable: true })
   use() {
     this.isUsed = true;
     this.isValid = false;

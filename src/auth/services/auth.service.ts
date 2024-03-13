@@ -36,7 +36,6 @@ export class AuthService {
   ): Promise<LoginResDto> {
     const user = await this.validateUser(email, password);
     const payload: TokenPayload = this.createTokenPayload(user.id);
-
     const [accessToken, refreshToken] = await Promise.all([
       this.createAccessToken(user, payload),
       this.createRefreshToken(user, payload),
@@ -120,10 +119,29 @@ export class AuthService {
     );
   }
 
+  async refreshAccessToken(refreshToken: string): Promise<string> {
+    try {
+      const { exp, ...payload } = await this.jwtService.verifyAsync(
+        refreshToken,
+        {
+          secret: this.configService.get<string>('JWT_SECRET'),
+        },
+      );
+
+      const user = await this.userRepository.findOneBy({ id: payload.sub });
+      if (!user) {
+        throw new HttpException('auth', HttpStatus.UNAUTHORIZED);
+      }
+
+      return this.createAccessToken(user, payload as TokenPayload);
+    } catch (error) {
+      throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
   // 시간 만료 함수
   private calculateExpiry(expiry: string): Date {
     let expiresInMilliseconds = 0;
-
     if (expiry.endsWith('d')) {
       const days = parseInt(expiry.slice(0, -1), 10);
       expiresInMilliseconds = days * 24 * 60 * 60 * 1000;

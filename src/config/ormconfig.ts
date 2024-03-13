@@ -2,6 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { AccessLog, AccessToken, RefreshToken, User } from 'src/auth/entities';
+import {
+  Coupon,
+  IssuedCoupon,
+  Order,
+  OrderItem,
+  Point,
+  PointLog,
+  Product,
+  ShippingInfo,
+} from 'src/payment/entities';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -14,9 +24,22 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       port: 5432,
       username: 'postgres',
       password: '1234aaaa',
-      database: 'postgres',
-      entities: [User, AccessToken, RefreshToken, AccessLog],
-      //[__dirname + '/**/*.entity{.ts,.js}'],
+      database: 'backend_material',
+      entities: [
+        User,
+        AccessToken,
+        RefreshToken,
+        AccessLog,
+        Coupon,
+        Point,
+        IssuedCoupon,
+        Product,
+        PointLog,
+        Order,
+        OrderItem,
+        ShippingInfo,
+      ],
+      //entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       logging: true,
     };

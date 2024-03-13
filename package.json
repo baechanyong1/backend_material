@@ -2,7 +2,7 @@
   "name": "backend_material",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "baechanyong1 <chanyongbae341@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -30,6 +30,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.3.0",
     "@nestjs/typeorm": "^10.0.2",
+    "@tosspayments/payment-widget-sdk": "^0.10.2",
     "argon2": "^0.40.1",
     "axios": "^1.6.7",
     "express-basic-auth": "^1.2.1",
@@ -40,7 +41,8 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20",
-    "typeorm-transactional": "^0.5.0"
+    "typeorm-transactional": "^0.5.0",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -81,5 +83,7 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/baechanyong1/backend_material.git"
 }
