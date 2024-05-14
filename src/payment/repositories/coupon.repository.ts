@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { Coupon } from '../entities';
+import { Coupon, IssuedCoupon } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCouponDto } from '../dto/create-coupon.dto';
 
@@ -14,13 +14,13 @@ export class CouponRepository extends Repository<Coupon> {
   }
 
   async findCoupon(): Promise<Coupon[]> {
-    const coupon = await this.find();
+    const coupon = await this.repo.find();
     return coupon;
   }
 
-  async findCouponById(id: string): Promise<Coupon> {
-    const coupon = await this.findOneBy({ id });
-    return coupon;
+  async findCouponById(couponId: string): Promise<Coupon> {
+    console.log(couponId);
+    return await this.repo.findOneBy({ id: couponId });
   }
 
   async createCoupon(dto: CreateCouponDto): Promise<Coupon> {

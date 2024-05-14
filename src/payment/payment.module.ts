@@ -3,12 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   CouponRepository,
   IssuedCouponRepository,
-  // OrderItemRepository,
-  // OrderRepository,
+  //OrderItemRepository,
+  OrderRepository,
   PointLogRepository,
   PointRepository,
   ProductRepository,
-  // ShippingInfoRepository,
+  ShippingInfoRepository,
 } from './repositories';
 import {
   Coupon,
@@ -22,7 +22,6 @@ import {
 } from './entities';
 import { AuthModule } from '../auth/auth.module';
 import { CouponService, PaymentService, ProductService } from './services';
-import { Category } from './entities/product.entity';
 import {
   PaymentController,
   ProductController,
@@ -33,7 +32,6 @@ import {
   imports: [
     AuthModule,
     TypeOrmModule.forFeature([
-      Order,
       OrderItem,
       ShippingInfo,
       Point,
@@ -41,6 +39,7 @@ import {
       Coupon,
       IssuedCoupon,
       Product,
+      Order,
     ]),
   ],
   controllers: [CouponController, ProductController, PaymentController],
@@ -48,9 +47,8 @@ import {
     PaymentService,
     ProductService,
     CouponService,
-    // OrderRepository,
-    // OrderItemRepository,
-    // ShippingInfoRepository,
+    OrderRepository,
+    ShippingInfoRepository,
     ProductRepository,
     CouponRepository,
     IssuedCouponRepository,

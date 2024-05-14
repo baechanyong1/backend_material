@@ -17,7 +17,7 @@ export class ShippingInfo extends BaseEntity {
   @Column({ type: 'text' })
   address: string;
 
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'varchar', length: 50, nullable: true })
   status: ShippingStatus;
 
   @Column({ type: 'varchar', length: 100, nullable: true })

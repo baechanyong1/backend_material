@@ -19,6 +19,10 @@ export class UserRepository extends Repository<User> {
     return this.repo.findOneBy({ email });
   }
 
+  async findById(userId: string): Promise<User> {
+    return this.repo.findOneBy({ id: userId });
+  }
+
   async createUser(dto: CreateUserDto, hashedPassword: string): Promise<User> {
     const user = new User();
     user.name = dto.name;

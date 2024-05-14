@@ -27,6 +27,7 @@ export class AuthService {
     private readonly accessTokenRepository: AccessTokenRepository,
     private readonly accessLogRepository: AccessLogRepository,
     private readonly tokenBlacklistService: TokenBlacklistService,
+    private readonly userService: JwtStrategy,
   ) {}
 
   async login(
@@ -40,10 +41,9 @@ export class AuthService {
       this.createAccessToken(user, payload),
       this.createRefreshToken(user, payload),
     ]);
-
     const { ip, endpoint, ua } = req;
     await this.accessLogRepository.createAccessLog(user, ua, endpoint, ip);
-
+    const user2 = await this.userService.validate(payload);
     return {
       accessToken,
       refreshToken,
@@ -54,6 +54,31 @@ export class AuthService {
         phone: user.phone,
       },
     };
+  }
+
+  async logout(accessToken: string, refreshToken: string): Promise<void> {
+    const [jtiAccess, jtiRefresh] = await Promise.all([
+      this.jwtService.verifyAsync(accessToken, {
+        secret: this.configService.get<string>('JWT_SECRET'),
+      }),
+      this.jwtService.verifyAsync(refreshToken, {
+        secret: this.configService.get<string>('JWT_SECRET'),
+      }),
+    ]);
+    await Promise.all([
+      this.addToBlacklist(
+        accessToken,
+        jtiAccess,
+        'access',
+        'ACCESS_TOKEN_EXPIRY',
+      ),
+      this.addToBlacklist(
+        refreshToken,
+        jtiRefresh,
+        'refresh',
+        'REFRESH_TOKEN_EXPIRY',
+      ),
+    ]);
   }
 
   private async validateUser(email: string, password: string): Promise<User> {
@@ -136,6 +161,18 @@ export class AuthService {
       return this.createAccessToken(user, payload as TokenPayload);
     } catch (error) {
       throw new HttpException('Invalid refresh token', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  async verifyToken(token: string): Promise<User | undefined> {
+    try {
+      const payload: TokenPayload = this.jwtService.verify(token);
+      const userId = payload.sub; // 예상대로 페이로드에서 사용자 ID를 추출
+      const user = await this.userRepository.findById(userId); // 사용자 ID로 사용자 정보를 가져옴
+      return user; // 가져온 사용자 정보를 반환
+    } catch (error) {
+      // 토큰이 유효하지 않은 경우
+      return undefined;
     }
   }
 

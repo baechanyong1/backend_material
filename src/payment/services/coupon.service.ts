@@ -20,11 +20,7 @@ export class CouponService {
     return await this.couponRepo.findCoupon();
   }
 
-  async register(
-    id: string,
-    dto: CreateIssuedCouponDto,
-    payload: TokenPayload,
-  ): Promise<IssuedCoupon> {
+  async register(id: string, payload: TokenPayload): Promise<IssuedCoupon> {
     const coupon = this.couponRepo.findCouponById(id);
     if (!coupon) {
       throw new HttpException(
@@ -32,6 +28,6 @@ export class CouponService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    return await this.issuedCouponRepo.createIssuedCoupon(dto, payload);
+    return await this.issuedCouponRepo.createIssuedCoupon(id, payload);
   }
 }

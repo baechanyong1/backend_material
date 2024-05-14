@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Req } from '@nestjs/common';
+import { Controller, Body, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService, UserService } from '../services';
 import {
   CreateUserDto,
@@ -7,6 +7,10 @@ import {
   RefreshReqDto,
   SignupResDto,
 } from '../dto';
+import * as cookieParser from 'cookie-parser';
+import cookie from 'cookie-parser';
+import { AuthGuard } from '../middleware/auth.guard';
+
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -25,6 +29,8 @@ export class AuthController {
     };
   }
 
+  //login시 res.locals.user 반환하기
+  @UseGuards(AuthGuard)
   @Post('login')
   async login(
     @Req() req,

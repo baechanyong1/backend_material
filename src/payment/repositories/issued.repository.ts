@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { IssuedCoupon } from '../entities';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateIssuedCouponDto } from '../dto';
 import { TokenPayload } from '../../auth/types';
@@ -14,21 +14,34 @@ export class IssuedCouponRepository extends Repository<IssuedCoupon> {
     super(repo.target, repo.manager, repo.queryRunner);
   }
 
-  async createIssuedCoupon(
-    dto: CreateIssuedCouponDto,
-    payload: TokenPayload,
-  ): Promise<IssuedCoupon> {
+  async createIssuedCoupon(id: string, payload: any): Promise<IssuedCoupon> {
     const oneWeekLater = new Date();
     oneWeekLater.setDate(oneWeekLater.getDate() + 7);
 
     const coupon = this.create({
       user: {
-        id: payload.sub,
+        id: payload,
       },
-      validFrom: Date.now(),
+      coupon: {
+        id: id,
+      },
+      validFrom: new Date(),
       validUntil: oneWeekLater,
     });
     await this.save(coupon);
     return coupon;
+  }
+
+  async findIssuedCoupon(
+    userId: string,
+    couponIds: string[],
+  ): Promise<IssuedCoupon | undefined> {
+    console.log(couponIds, '쿠폰아이디');
+    return await this.createQueryBuilder('issuedCoupon')
+      .leftJoinAndSelect('issuedCoupon.user', 'user')
+      .leftJoinAndSelect('issuedCoupon.coupon', 'coupon')
+      .where('user.id = :userId', { userId })
+      .andWhere('coupon.id IN (:...couponIds)', { couponIds })
+      .getOne();
   }
 }

@@ -1,8 +1,17 @@
-import { Controller, Body, Post, Req, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Post,
+  Req,
+  Get,
+  Param,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateCouponDto, CreateIssuedCouponDto } from '../dto';
 import { CouponService } from '../services/coupon.service';
 import { Coupon, IssuedCoupon } from '../entities';
 import { TokenPayload } from 'src/auth/types';
+import { AuthGuard } from 'src/auth/middleware/auth.guard';
 
 @Controller('coupon')
 export class CouponController {
@@ -15,17 +24,14 @@ export class CouponController {
   }
 
   // 사용자 쿠폰 등록
-  @Post('id')
+  @UseGuards(AuthGuard)
+  @Post('issued/:id') // URL에서 id를 파라미터로 받음
   async register(
-    @Req() payload: TokenPayload,
-    @Param() id: string,
-    @Body() createIssuedCouponDto: CreateIssuedCouponDto,
+    @Req() request,
+    @Param('id') id: string, // @Param() 데코레이터를 사용하여 URL 파라미터를 받음
   ): Promise<IssuedCoupon> {
-    return await this.couponService.register(
-      id,
-      createIssuedCouponDto,
-      payload,
-    );
+    console.log(request.user);
+    return await this.couponService.register(id, request.user.id);
   }
 
   //쿠폰 조회

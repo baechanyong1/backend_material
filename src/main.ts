@@ -4,6 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { initializeTransactionalContext } from 'typeorm-transactional';
 import { setSwagger } from './app.swager';
 import { BusinessExceptionFilter } from './exception';
+import * as express from 'express';
+import * as path from 'path';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -18,6 +20,9 @@ async function bootstrap() {
   console.log(`runtime: ${env}\tport: ${port}\tserviceName: ${serviceName}`);
 
   setSwagger(app);
+
+  app.use(express.static(path.join(__dirname, '..', 'public')));
+
   await app.listen(port);
 }
 

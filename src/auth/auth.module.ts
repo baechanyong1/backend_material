@@ -57,6 +57,7 @@ import { TokenBlacklistService } from './services/token-blacklist';
     AccessLogRepository,
     TokenBlacklistRepository,
     JwtStrategy,
+    //LoggingInterceptor,
   ],
   exports: [
     UserService,
@@ -68,6 +69,7 @@ import { TokenBlacklistService } from './services/token-blacklist';
     AccessLogRepository,
     TokenBlacklistRepository,
     JwtStrategy,
+    // LoggingInterceptor,
   ],
 })
 export class AuthModule {}

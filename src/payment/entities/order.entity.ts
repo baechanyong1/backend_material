@@ -56,8 +56,8 @@ export class Order extends BaseEntity {
   @Column({ type: 'timestamp', nullable: true })
   refundedAt: Date;
 
-  @Column({ type: 'jsonb', nullable: true })
-  pgMetadata: any; // PG사 메타데이터
+  // @Column({ type: 'jsonb', nullable: true })
+  // pgMetadata: any; // PG사 메타데이터
 
   constructor() {
     super();

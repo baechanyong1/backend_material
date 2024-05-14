@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { PointLog } from '../entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,18 +12,24 @@ export class PointLogRepository extends Repository<PointLog> {
     super(repo.target, repo.manager, repo.queryRunner);
   }
 
-  // async addPointLog(data: any): Promise<PointLog> {
-  //   const pointLog = new PointLog();
-  //   pointLog.point = data.amount;
-  //   pointLog.add(data.amount, data.reason);
-  //   return this.save(data);
-  // }
-
   async addPointLog(amount: number, reason: string): Promise<PointLog> {
+    console.log('로그', amount, reason);
     const pointLog = new PointLog();
     pointLog.amount = amount;
     pointLog.reason = reason;
-    pointLog.add(amount, reason);
-    return this.save(pointLog);
+
+    if (pointLog.reason === 'earn') {
+      pointLog.add(amount, reason);
+      console.log('충전', pointLog);
+    } else if (pointLog.reason === '사용') {
+      pointLog.use(amount, reason);
+    } else {
+      throw new HttpException(
+        '포인트 로그 저장에 실패했습니다',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    console.log('로그 끝', pointLog);
+    return await this.repo.save(pointLog);
   }
 }

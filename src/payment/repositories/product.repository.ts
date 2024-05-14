@@ -30,4 +30,8 @@ export class ProductRepository extends Repository<Product> {
   // async findCategory() {
   //   return await this.repo.find({ where: { category } });
   // }
+
+  async findProduct(id: string): Promise<Product> {
+    return await this.repo.findOneBy({ id });
+  }
 }
