@@ -1,4 +1,4 @@
-p<p align=center>
+<p align=center>
 
 <h3> :blush:소개 </h3>
 로그인 및 결제서비스<br>
